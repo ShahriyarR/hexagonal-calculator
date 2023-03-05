@@ -1,10 +1,11 @@
 from dataclasses import dataclass
+from decimal import Decimal
 
 
 @dataclass
 class Operands:
-    left: int
-    right: int
+    left: Decimal
+    right: Decimal
 
     def __hash__(self):
         return hash(self.left + self.right)

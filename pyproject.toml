@@ -9,7 +9,8 @@ readme = "README.md"
 dynamic = ["version", "description"]
 requires-python = ">=3.10"
 dependencies = [
-    "dependency-injector>=4.41.0",
+    "dependency-injector >=4.41.0",
+    "marshmallow >=3.19.0"
 ]
 
 
