@@ -1,4 +1,5 @@
 import pytest
+
 from calculator.adapters.services.operands import OperandsService
 
 
