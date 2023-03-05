@@ -2,6 +2,7 @@ from decimal import Decimal
 
 import marshmallow
 import pytest
+
 from calculator.domain.model.model import Operands, operands_factory
 from calculator.domain.model.schemas import OperandsCreateDTO
 
@@ -24,7 +25,7 @@ def test_if_operands_is_created_with_wrong_types():
 def test_if_operands_create_dto_created():
     schema_ = OperandsCreateDTO()
     result = schema_.load({"left": 4, "right": 5})
-    assert {'right': Decimal('5'), 'left': Decimal('4')} == result
+    assert {"right": Decimal("5"), "left": Decimal("4")} == result
 
 
 def test_if_operands_create_dto_can_be_created_with_wrong_types():
@@ -37,3 +38,15 @@ def test_if_operands_create_dto_can_be_created_with_wrong_types():
     with pytest.raises(marshmallow.exceptions.ValidationError):
         schema_.load({"left": 5.5, "right": "fake"})
 
+
+def test_if_operands_create_dto_can_be_created_with_extra_fields():
+    schema_ = OperandsCreateDTO()
+    result = schema_.load({"left": 4.5, "right": 5.0, "fake": 55})
+    # So the "fake" data should be excluded
+    assert {"left": Decimal("4.5"), "right": Decimal("5.0")} == result
+
+
+def test_if_operands_create_dto_can_be_created_with_wrong_field_names():
+    schema_ = OperandsCreateDTO()
+    with pytest.raises(marshmallow.exceptions.ValidationError):
+        schema_.load({"lft": 4.5, "right": 5.0})
