@@ -4,7 +4,11 @@ from decimal import Decimal
 import marshmallow
 import pytest
 
-from calculator.domain.model.model import Operands, operands_factory
+from calculator.domain.model.model import (
+    Operands,
+    calculation_factory,
+    operands_factory,
+)
 from calculator.domain.model.schemas import OperandsCreateDTO
 
 
@@ -61,3 +65,14 @@ def test_if_operands_create_dto_can_be_created_with_missing_field_names():
     schema_ = OperandsCreateDTO()
     with pytest.raises(marshmallow.exceptions.ValidationError):
         schema_.load({"left": 4.5})
+
+
+def test_if_calculation_model_created_with_factory():
+    result = calculation_factory(5, 6, "ADD", 11)
+    assert result.result == 11
+    assert result.action == "add"
+
+
+def test_if_calculation_model_created_with_factory_with_wrong_action():
+    with pytest.raises(KeyError):
+        calculation_factory(5, 6, "Boom", 11)

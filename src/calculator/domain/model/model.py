@@ -1,5 +1,9 @@
+import datetime
 from dataclasses import dataclass
 from decimal import Decimal
+from enum import Enum
+
+from ulid import ULID
 
 from calculator.domain.model.schemas import OperandsCreateDTO
 
@@ -16,6 +20,39 @@ class Operands:
         if not isinstance(other, Operands):
             return False
         return self.left == other.left and self.right == other.right
+
+
+class ActionType(Enum):
+    ADD = "add"
+    SUBTRACT = "subtract"
+    DIVIDE = "divide"
+    MULTIPLY = "multiply"
+
+
+@dataclass
+class Calculation:
+    uuid: str
+    left: Decimal
+    right: Decimal
+    action: str
+    result: Decimal
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
+
+    def __hash__(self):
+        return hash(self.uuid)
+
+
+def calculation_factory(left, right, action, result):
+    return Calculation(
+        uuid=str(ULID()),
+        left=left,
+        right=right,
+        action=ActionType[action].value,
+        result=result,
+        created_at=datetime.datetime.now(datetime.timezone.utc),
+        updated_at=datetime.datetime.now(datetime.timezone.utc),
+    )
 
 
 def operands_factory(**kwargs: dict[str]) -> Operands:

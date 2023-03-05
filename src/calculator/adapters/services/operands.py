@@ -3,6 +3,7 @@ from decimal import Decimal
 from typing import Generator
 
 import icontract
+
 from calculator.domain.model.model import operands_factory
 from calculator.domain.model.schemas import OperandsCreateDTO
 from calculator.domain.ports.services.operands import OperandsServiceInterface
