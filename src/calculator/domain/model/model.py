@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from decimal import Decimal
 
+from calculator.domain.model.schemas import OperandsCreateDTO
+
 
 @dataclass
 class Operands:
@@ -16,5 +18,8 @@ class Operands:
         return self.left == other.left and self.right == other.right
 
 
-def operands_factory(left: int, right: int) -> Operands:
-    return Operands(left=left, right=right)
+def operands_factory(**kwargs: dict[str]) -> Operands:
+    schema_ = OperandsCreateDTO()
+    model = Operands(**kwargs)
+    schema_.dump(model)
+    return model
