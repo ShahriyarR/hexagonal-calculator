@@ -13,3 +13,7 @@ class Operands:
         if not isinstance(other, Operands):
             return False
         return self.left == other.left and self.right == other.right
+
+
+def operands_factory(left: int, right: int) -> Operands:
+    return Operands(left=left, right=right)
