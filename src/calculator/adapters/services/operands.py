@@ -23,3 +23,9 @@ class OperandsService(OperandsServiceInterface):
         result = OperandsCreateDTO().load(data_)
         operands = operands_factory(**result)
         return operands.left * operands.right
+
+    def _divide(self, left: Decimal, right: Decimal) -> Decimal:
+        data_ = {"left": left, "right": right}
+        result = OperandsCreateDTO().load(data_)
+        operands = operands_factory(**result)
+        return operands.left / operands.right

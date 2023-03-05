@@ -12,6 +12,9 @@ class OperandsServiceInterface(ABC):
     def multiply(self, left: Decimal, right: Decimal) -> Decimal:
         return self._multiply(left, right)
 
+    def divide(self, left: Decimal, right: Decimal) -> Decimal:
+        return self._divide(left, right)
+
     @abstractmethod
     def _add(self, left: Decimal, right: Decimal) -> Decimal:
         raise NotImplementedError
@@ -22,4 +25,8 @@ class OperandsServiceInterface(ABC):
 
     @abstractmethod
     def _multiply(self, left: Decimal, right: Decimal) -> Decimal:
+        raise NotImplementedError
+
+    @abstractmethod
+    def _divide(self, left: Decimal, right: Decimal) -> Decimal:
         raise NotImplementedError
