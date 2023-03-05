@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+import icontract
 import marshmallow
 import pytest
 
@@ -61,7 +62,9 @@ def test_operands_service_divide_result(get_operands_service):
     assert get_operands_service.divide(Decimal("4.0"), Decimal("2")) == Decimal("2")
 
     assert get_operands_service.divide(56, 7) == 8
-    assert get_operands_service.divide(7, 0) == 0
+
+    with pytest.raises(icontract.errors.ViolationError):
+        get_operands_service.divide(7, 0)
 
 
 def test_operands_service_multiply_with_wrong_data_types(get_operands_service):
