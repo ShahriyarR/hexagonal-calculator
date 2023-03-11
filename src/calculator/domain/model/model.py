@@ -43,15 +43,15 @@ class Calculation:
         return hash(self.uuid)
 
 
-def calculation_factory(left, right, action, result):
+def calculation_factory(uuid, left, right, action, result, created_at, updated_at):
     return Calculation(
-        uuid=str(ULID()),
+        uuid=uuid,
         left=left,
         right=right,
         action=ActionType[action].value,
         result=result,
-        created_at=datetime.datetime.now(datetime.timezone.utc),
-        updated_at=datetime.datetime.now(datetime.timezone.utc),
+        created_at=created_at,
+        updated_at=updated_at,
     )
 
 
