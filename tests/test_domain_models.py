@@ -9,7 +9,7 @@ from calculator.domain.model.model import (
     calculation_factory,
     operands_factory,
 )
-from calculator.domain.model.schemas import OperandsCreateDTO
+from calculator.domain.model.schemas import CalculationCreateDTO, OperandsCreateDTO
 
 
 def test_if_operands_is_created():
@@ -68,11 +68,23 @@ def test_if_operands_create_dto_can_be_created_with_missing_field_names():
 
 
 def test_if_calculation_model_created_with_factory():
-    result = calculation_factory(5, 6, "ADD", 11)
-    assert result.result == 11
+    schema_ = CalculationCreateDTO()
+    result_ = schema_.load({"left": 4.0, "right": 5.0, "action": "add", "result": 9.0})
+    result = calculation_factory(**result_)
     assert result.action == "add"
+    assert result.result == 9.0
 
 
 def test_if_calculation_model_created_with_factory_with_wrong_action():
-    with pytest.raises(KeyError):
-        calculation_factory(5, 6, "Boom", 11)
+    schema_ = CalculationCreateDTO()
+    # This should fail at schema level
+    with pytest.raises(marshmallow.exceptions.ValidationError):
+        _ = schema_.load({"left": 2.0, "right": 2.3, "action": "fake", "result": 4.6})
+
+    with pytest.raises(ValueError):
+        result = schema_.load(
+            {"left": 2.0, "right": 2.3, "action": "add", "result": 4.6}
+        )
+        # If somebody changes the action and tries to inject fake data; it will fail at model level
+        result["action"] = "fake"
+        calculation_factory(**result)

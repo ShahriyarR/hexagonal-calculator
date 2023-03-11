@@ -3,8 +3,6 @@ from dataclasses import dataclass
 from decimal import Decimal
 from enum import Enum
 
-from ulid import ULID
-
 from calculator.domain.model.schemas import OperandsCreateDTO
 
 
@@ -43,16 +41,11 @@ class Calculation:
         return hash(self.uuid)
 
 
-def calculation_factory(uuid, left, right, action, result, created_at, updated_at):
-    return Calculation(
-        uuid=uuid,
-        left=left,
-        right=right,
-        action=ActionType[action].value,
-        result=result,
-        created_at=created_at,
-        updated_at=updated_at,
-    )
+def calculation_factory(**kwargs: dict[str]) -> Calculation:
+    action_ = kwargs.get("action")
+    action_ = ActionType(action_).value
+    kwargs["action"] = action_
+    return Calculation(**kwargs)
 
 
 def operands_factory(**kwargs: dict[str]) -> Operands:
