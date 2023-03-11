@@ -1,6 +1,6 @@
 PYTHON=./.venv/bin/python
 
-PHONY = help install install-dev test format lint type-check secure
+PHONY = help install install-dev test format lint type-check secure migrations migrate
 
 help:
 	@echo "---------------HELP-----------------"
@@ -12,6 +12,8 @@ help:
 	@echo "To check linter type -> make lint"
 	@echo "To run type checker -> make type-check"
 	@echo "To run all security related commands -> make secure"
+	@echo "To create database migrations -> make migrations"
+	@echo "To run database migrations -> make migrate"
 	@echo "------------------------------------"
 
 install:
@@ -42,3 +44,9 @@ type-check:
 
 secure:
 	${PYTHON} -m bandit -r src --config pyproject.toml
+
+migrations:
+	alembic -c src/calculator/adapters/db/alembic.ini revision --autogenerate
+
+migrate:
+	alembic -c src/calculator/adapters/db/alembic.ini upgrade head

@@ -13,6 +13,8 @@ dependencies = [
     "marshmallow >=3.19.0",
     "icontract >=2.6.2",
     "python-ulid >=1.1.0",
+    "alembic ==1.9.3",
+    "SQLAlchemy ==1.4.46",
 ]
 
 
