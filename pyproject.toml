@@ -12,6 +12,7 @@ dependencies = [
     "dependency-injector >=4.41.0",
     "marshmallow >=3.19.0",
     "icontract >=2.6.2",
+    "python-ulid >=1.1.0",
 ]
 
 
