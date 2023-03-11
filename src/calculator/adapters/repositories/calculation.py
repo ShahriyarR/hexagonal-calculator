@@ -1,14 +1,15 @@
-from calculator.domain.ports.repositories.calculation import CalculationRepositoryInterface
 from calculator.domain.model import model
+from calculator.domain.ports.repositories.calculation import (
+    CalculationRepositoryInterface,
+)
 
 
 class CalculationSqlAlchemyRepository(CalculationRepositoryInterface):
-
     def __init__(self, session):
         super().__init__()
         self.session = session
 
-    def _add(self, calculation: model.Calculation):
+    def _add(self, calculation: model.Calculation) -> None:
         self.session.add(calculation)
 
     def _get(self, id_: int) -> model.Calculation:
@@ -22,4 +23,3 @@ class CalculationSqlAlchemyRepository(CalculationRepositoryInterface):
 
     def _get_all(self) -> list[model.Calculation]:
         return self.session.query(model.Calculation).all()
-

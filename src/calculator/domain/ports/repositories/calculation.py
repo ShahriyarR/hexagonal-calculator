@@ -7,7 +7,7 @@ class CalculationRepositoryInterface(ABC):
     def __init__(self):
         self.seen = set()
 
-    def add(self, calculation: model.Calculation):
+    def add(self, calculation: model.Calculation) -> None:
         self._add(calculation)
         self.seen.add(calculation)
 
@@ -33,7 +33,7 @@ class CalculationRepositoryInterface(ABC):
         return self._get_all()
 
     @abstractmethod
-    def _add(self, calculation: model.Calculation):
+    def _add(self, calculation: model.Calculation) -> None:
         raise NotImplementedError
 
     @abstractmethod
