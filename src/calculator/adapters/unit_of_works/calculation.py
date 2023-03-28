@@ -1,12 +1,14 @@
-from typing import Callable, Any
+from typing import Any, Callable
+
+from sqlalchemy.orm import Session
 
 from calculator.adapters.repositories.calculation import CalculationSqlAlchemyRepository
-from calculator.domain.ports.unit_of_works.calculation import CalculationUnitOfWorkInterface
-from sqlalchemy.orm import Session
+from calculator.domain.ports.unit_of_works.calculation import (
+    CalculationUnitOfWorkInterface,
+)
 
 
 class CalculationSqlAlchemyUnitOfWork(CalculationUnitOfWorkInterface):
-
     def __init__(self, session_factory: Callable[[], Any]):
         self.session_factory = session_factory()
 
