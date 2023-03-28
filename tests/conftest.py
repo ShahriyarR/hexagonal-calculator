@@ -1,5 +1,5 @@
 import pytest
-from fake_repository import FakeCalculationRepository
+from tests.fake_repository import FakeCalculationRepository
 
 from calculator.adapters.services.operands import OperandsService
 from calculator.domain.model.model import calculation_factory
