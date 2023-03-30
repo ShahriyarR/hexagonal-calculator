@@ -52,6 +52,9 @@ include = '\.pyi?$'
 skips = ["B311"]
 
 [tool.pytest.ini_options]
+markers = [
+    "integration: marks tests as integration relatively slow (deselect with '-m \"not integration\"')",
+]
 addopts = [
     "--strict-markers",
     "--strict-config",

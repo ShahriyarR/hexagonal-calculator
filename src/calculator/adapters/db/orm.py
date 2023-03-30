@@ -3,6 +3,7 @@ from sqlalchemy import (
     BigInteger,
     Column,
     DateTime,
+    Integer,
     MetaData,
     String,
     Table,
@@ -18,7 +19,13 @@ mapper_registry = registry(metadata=metadata)
 calculation = Table(
     "calculation",
     mapper_registry.metadata,
-    Column("id", BigInteger, primary_key=True, autoincrement=True),
+    # Column("id", BigInteger, primary_key=True, autoincrement=True),
+    Column(
+        "id",
+        BigInteger().with_variant(Integer, "sqlite"),
+        primary_key=True,
+        autoincrement=True,
+    ),
     Column("uuid", String, unique=True, nullable=False),
     Column("left", DECIMAL, nullable=False),
     Column("right", DECIMAL, nullable=False),
