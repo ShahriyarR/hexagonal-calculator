@@ -1,4 +1,5 @@
 from decimal import Decimal
+from typing import Any
 
 from dependency_injector.wiring import Provide
 
@@ -71,3 +72,12 @@ class CalculateUseCase(CalculateUseCaseInterface):
             model = calculation_factory(**data_)
             self.uow.calculation.add(model)
             self.uow.commit()
+
+    def _get_all(self) -> dict[str, list[dict[str, Any]]]:
+        data_ = {"results": []}
+        with self.uow:
+            results = self.uow.calculation.get_all()
+            for result in results:
+                data_["results"].append(result.uuid)
+
+        return data_
