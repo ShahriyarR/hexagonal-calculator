@@ -44,3 +44,15 @@ class CalculateUseCase(CalculateUseCaseInterface):
         model = calculation_factory(**data_)
         self.uow.calculation.add(model)
         self.uow.commit()
+
+    def _multiply(self, left: Decimal, right: Decimal):
+        # calculate
+        result = self.service.multiply(left, right)
+        # save the information
+        schema_ = CalculationCreateDTO()
+        data_ = schema_.load(
+            {"left": left, "right": right, "action": "multiply", "result": result}
+        )
+        model = calculation_factory(**data_)
+        self.uow.calculation.add(model)
+        self.uow.commit()
