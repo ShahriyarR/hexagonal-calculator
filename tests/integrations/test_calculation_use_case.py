@@ -64,3 +64,15 @@ def test_calculate_use_case_get_all(get_fake_container, get_calculate_use_case):
             result = get_calculate_use_case.get_all()
             # Because of the previous added 4 values
             assert len(result["results"]) == 7
+
+
+def test_calculate_use_case_get_by_uuid(get_fake_container, get_calculate_use_case):
+    with Container.calculation_uow.override(get_fake_container.calculation_uow):
+        with Container.operands_service.override(get_fake_container.operands_service):
+            result = get_calculate_use_case.get_all()
+            uuid = result["results"][0]
+            assert uuid
+            data = get_calculate_use_case.get_by_uuid(uuid)
+            assert data["result"]["uuid"] == uuid
+            data = get_calculate_use_case.get_by_uuid("fake")
+            assert data["result"] == "NotFound"
