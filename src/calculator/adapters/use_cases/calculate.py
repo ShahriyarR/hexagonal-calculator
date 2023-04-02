@@ -73,7 +73,7 @@ class CalculateUseCase(CalculateUseCaseInterface):
             self.uow.calculation.add(model)
             self.uow.commit()
 
-    def _get_all(self) -> dict[str, list[dict[str, Any]]]:
+    def _get_all(self) -> dict[str, list[str]]:
         data_ = {"results": []}
         with self.uow:
             results = self.uow.calculation.get_all()
@@ -81,3 +81,10 @@ class CalculateUseCase(CalculateUseCaseInterface):
                 data_["results"].append(result.uuid)
 
         return data_
+
+    def _get_by_uuid(self, uuid: str) -> dict[str, Any]:
+        with self.uow:
+            result = self.uow.calculation.get_by_uuid(uuid)
+            if result:
+                return {"result": result.to_dict()}
+        return {"result": "NotFound"}

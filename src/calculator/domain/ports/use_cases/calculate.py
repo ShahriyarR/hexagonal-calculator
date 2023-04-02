@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from decimal import Decimal
+from typing import Any
 
 from calculator.domain.ports.services.operands import OperandsServiceInterface
 from calculator.domain.ports.unit_of_works.calculation import (
@@ -29,6 +30,9 @@ class CalculateUseCaseInterface(ABC):
     def get_all(self):
         return self._get_all()
 
+    def get_by_uuid(self, uuid: str) -> dict[str, Any]:
+        return self._get_by_uuid(uuid)
+
     @abstractmethod
     def _add(self, left: Decimal, right: Decimal):
         raise NotImplementedError
@@ -48,3 +52,8 @@ class CalculateUseCaseInterface(ABC):
     @abstractmethod
     def _get_all(self):
         raise NotImplementedError
+
+    @abstractmethod
+    def _get_by_uuid(self, uuid: str) -> dict[str, Any]:
+        raise NotImplementedError
+
