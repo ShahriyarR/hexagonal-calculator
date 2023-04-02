@@ -23,6 +23,9 @@ class CalculateUseCaseInterface(ABC):
     def multiply(self, left: Decimal, right: Decimal):
         return self._multiply(left, right)
 
+    def divide(self, left: Decimal, right: Decimal):
+        return self._divide(left, right)
+
     @abstractmethod
     def _add(self, left: Decimal, right: Decimal):
         raise NotImplementedError
@@ -31,5 +34,10 @@ class CalculateUseCaseInterface(ABC):
     def _subtract(self, left: Decimal, right: Decimal):
         raise NotImplementedError
 
+    @abstractmethod
     def _multiply(self, left: Decimal, right: Decimal):
+        raise NotImplementedError
+
+    @abstractmethod
+    def _divide(self, left: Decimal, right: Decimal):
         raise NotImplementedError

@@ -34,25 +34,40 @@ class CalculateUseCase(CalculateUseCaseInterface):
             self.uow.commit()
 
     def _subtract(self, left: Decimal, right: Decimal):
-        # calculate
-        result = self.service.subtract(left, right)
-        # save the information
-        schema_ = CalculationCreateDTO()
-        data_ = schema_.load(
-            {"left": left, "right": right, "action": "subtract", "result": result}
-        )
-        model = calculation_factory(**data_)
-        self.uow.calculation.add(model)
-        self.uow.commit()
+        with self.uow:
+            # calculate
+            result = self.service.subtract(left, right)
+            # save the information
+            schema_ = CalculationCreateDTO()
+            data_ = schema_.load(
+                {"left": left, "right": right, "action": "subtract", "result": result}
+            )
+            model = calculation_factory(**data_)
+            self.uow.calculation.add(model)
+            self.uow.commit()
 
     def _multiply(self, left: Decimal, right: Decimal):
-        # calculate
-        result = self.service.multiply(left, right)
-        # save the information
-        schema_ = CalculationCreateDTO()
-        data_ = schema_.load(
-            {"left": left, "right": right, "action": "multiply", "result": result}
-        )
-        model = calculation_factory(**data_)
-        self.uow.calculation.add(model)
-        self.uow.commit()
+        with self.uow:
+            # calculate
+            result = self.service.multiply(left, right)
+            # save the information
+            schema_ = CalculationCreateDTO()
+            data_ = schema_.load(
+                {"left": left, "right": right, "action": "multiply", "result": result}
+            )
+            model = calculation_factory(**data_)
+            self.uow.calculation.add(model)
+            self.uow.commit()
+
+    def _divide(self, left: Decimal, right: Decimal):
+        with self.uow:
+            # calculate
+            result = self.service.divide(left, right)
+            # save the information
+            schema_ = CalculationCreateDTO()
+            data_ = schema_.load(
+                {"left": left, "right": right, "action": "divide", "result": result}
+            )
+            model = calculation_factory(**data_)
+            self.uow.calculation.add(model)
+            self.uow.commit()
