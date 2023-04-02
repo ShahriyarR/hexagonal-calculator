@@ -1,5 +1,9 @@
 from decimal import Decimal
 
+from dependency_injector.wiring import Provide
+
+from calculator.domain.model.model import calculation_factory
+from calculator.domain.model.schemas import CalculationCreateDTO
 from calculator.domain.ports.services.operands import OperandsServiceInterface
 from calculator.domain.ports.unit_of_works.calculation import (
     CalculationUnitOfWorkInterface,
@@ -9,10 +13,22 @@ from calculator.domain.ports.use_cases.calculate import CalculateUseCaseInterfac
 
 class CalculateUseCase(CalculateUseCaseInterface):
     def __init__(
-        self, uow: CalculationUnitOfWorkInterface, service: OperandsServiceInterface
+        self,
+        uow: CalculationUnitOfWorkInterface = Provide["calculation_uow"],
+        service: OperandsServiceInterface = Provide["operands_service"],
     ):
         self.uow = uow
         self.service = service
 
     def _add(self, left: Decimal, right: Decimal):
-        ...
+        with self.uow:
+            # calculate
+            result = self.service.add(left, right)
+            # save the information
+            schema_ = CalculationCreateDTO()
+            data_ = schema_.load(
+                {"left": left, "right": right, "action": "add", "result": result}
+            )
+            model = calculation_factory(**data_)
+            self.uow.calculation.add(model)
+            self.uow.commit()
