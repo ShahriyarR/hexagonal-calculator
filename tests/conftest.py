@@ -49,9 +49,7 @@ def get_fake_container():
     # Truncate table
     uow = FakeContainer.calculation_uow()
     with uow:
-        uow.session.execute(
-            sqlalchemy.text("DELETE FROM calculation")
-        )
+        uow.session.execute(sqlalchemy.text("DELETE FROM calculation"))
         uow.commit()
 
     return FakeContainer()

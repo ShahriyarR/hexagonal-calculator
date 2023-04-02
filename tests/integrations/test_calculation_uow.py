@@ -12,7 +12,9 @@ def test_uow_add_calculation(get_fake_container, get_calculation_model_object):
 
 
 @pytest.mark.integration
-def test_uow_get_calculation_by_uuid(get_fake_container, get_calculation_model_object_with_subtract):
+def test_uow_get_calculation_by_uuid(
+    get_fake_container, get_calculation_model_object_with_subtract
+):
     uow = get_fake_container.calculation_uow()
     with uow:
         uow.calculation.add(get_calculation_model_object_with_subtract)
@@ -25,7 +27,9 @@ def test_uow_get_calculation_by_uuid(get_fake_container, get_calculation_model_o
 
 
 @pytest.mark.integration
-def test_uow_get_calculation_by_action(get_fake_container, get_calculation_model_object_with_subtract):
+def test_uow_get_calculation_by_action(
+    get_fake_container, get_calculation_model_object_with_subtract
+):
     uow = get_fake_container.calculation_uow()
     with uow:
         uow.calculation.add(get_calculation_model_object_with_subtract)
