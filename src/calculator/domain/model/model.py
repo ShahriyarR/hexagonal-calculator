@@ -1,7 +1,8 @@
 import datetime
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from decimal import Decimal
 from enum import Enum
+from typing import Any
 
 from calculator.domain.model.schemas import OperandsCreateDTO
 
@@ -39,6 +40,9 @@ class Calculation:
 
     def __hash__(self):
         return hash(self.uuid)
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
 
 
 def calculation_factory(**kwargs: dict[str]) -> Calculation:

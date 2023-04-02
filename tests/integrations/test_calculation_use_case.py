@@ -1,5 +1,6 @@
 import icontract
 import pytest
+
 from calculator.configurator.containers import Container
 
 
@@ -53,3 +54,13 @@ def test_calculate_use_case_divide(get_fake_container, get_calculate_use_case):
             with pytest.raises(icontract.errors.ViolationError):
                 get_calculate_use_case.divide(8, 0)
 
+
+def test_calculate_use_case_get_all(get_fake_container, get_calculate_use_case):
+    with Container.calculation_uow.override(get_fake_container.calculation_uow):
+        with Container.operands_service.override(get_fake_container.operands_service):
+            get_calculate_use_case.add(55, 65)
+            get_calculate_use_case.subtract(55, 66)
+            get_calculate_use_case.multiply(55, 66)
+            result = get_calculate_use_case.get_all()
+            # Because of the previous added 4 values
+            assert len(result["results"]) == 7
