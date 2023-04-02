@@ -32,3 +32,15 @@ class CalculateUseCase(CalculateUseCaseInterface):
             model = calculation_factory(**data_)
             self.uow.calculation.add(model)
             self.uow.commit()
+
+    def _subtract(self, left: Decimal, right: Decimal):
+        # calculate
+        result = self.service.subtract(left, right)
+        # save the information
+        schema_ = CalculationCreateDTO()
+        data_ = schema_.load(
+            {"left": left, "right": right, "action": "subtract", "result": result}
+        )
+        model = calculation_factory(**data_)
+        self.uow.calculation.add(model)
+        self.uow.commit()
