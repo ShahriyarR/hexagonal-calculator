@@ -17,7 +17,7 @@ class CalculationCreateDTO(Schema):
     left = fields.Decimal(required=True)
     right = fields.Decimal(required=True)
     action = fields.String(
-        validate=validate.OneOf(["add", "divide", "subtract", "multipliy"])
+        validate=validate.OneOf(["add", "divide", "subtract", "multiply"])
     )
     result = fields.Decimal(required=True)
     created_at = fields.DateTime(
