@@ -1,8 +1,11 @@
+import contextlib
+
 import pytest
 import sqlalchemy
 
 from calculator.adapters.db.orm import start_mappers
 from calculator.adapters.services.operands import OperandsService
+from calculator.adapters.use_cases.calculate import CalculateUseCase
 from calculator.domain.model.model import calculation_factory
 from calculator.domain.model.schemas import CalculationCreateDTO
 from tests.fake_container import FakeContainer
@@ -44,7 +47,8 @@ def get_fake_uow():
 @pytest.fixture(scope="module")
 def get_fake_container():
     # Start ORM mapper
-    start_mappers()
+    with contextlib.suppress(sqlalchemy.exc.ArgumentError):
+        start_mappers()
 
     # Truncate table
     uow = FakeContainer.calculation_uow()
@@ -53,3 +57,8 @@ def get_fake_container():
         uow.commit()
 
     return FakeContainer()
+
+
+@pytest.fixture(scope="module")
+def get_calculate_use_case():
+    return CalculateUseCase()
