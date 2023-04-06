@@ -16,8 +16,11 @@ ENGINE = create_engine(db_uri)
 class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(
         modules=[
-            "calculator.use_cases.calculate",
+            "calculator.adapters.use_cases.calculate",
         ],
+        packages=[
+            "calculator.adapters.entrypoints.api",
+        ]
     )
 
     DEFAULT_SESSION_FACTORY = lambda: sessionmaker(bind=ENGINE, autocommit=False)

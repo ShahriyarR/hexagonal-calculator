@@ -56,4 +56,3 @@ class CalculateUseCaseInterface(ABC):
     @abstractmethod
     def _get_by_uuid(self, uuid: str) -> dict[str, Any]:
         raise NotImplementedError
-
