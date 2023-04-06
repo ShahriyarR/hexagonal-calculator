@@ -20,7 +20,7 @@ class Container(containers.DeclarativeContainer):
         ],
         packages=[
             "calculator.adapters.entrypoints.api",
-        ]
+        ],
     )
 
     DEFAULT_SESSION_FACTORY = lambda: sessionmaker(bind=ENGINE, autocommit=False)

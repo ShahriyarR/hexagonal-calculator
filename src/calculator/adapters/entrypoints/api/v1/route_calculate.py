@@ -1,7 +1,8 @@
 import json
+from typing import Any
 
 from dependency_injector.wiring import Provide, inject
-from fastapi import APIRouter, Response, Depends
+from fastapi import APIRouter, Depends, Response
 
 from calculator.domain.ports.use_cases.calculate import CalculateUseCaseInterface
 
@@ -17,3 +18,12 @@ async def get_all_calculation(
     return Response(
         content=json.dumps(data), media_type="application/json", status_code=200
     )
+
+
+@router.get("/calculation/{uuid}", response_model=None)
+@inject
+async def get_all_calculation(
+    uuid: str,
+    use_case: CalculateUseCaseInterface = Depends(Provide["calculate_use_case"]),
+) -> dict[str, Any]:
+    return use_case.get_by_uuid(uuid)
