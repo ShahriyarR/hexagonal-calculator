@@ -22,7 +22,7 @@ async def get_all_calculation(
 
 @router.get("/calculation/{uuid}", response_model=None)
 @inject
-async def get_all_calculation(
+async def get_calculation_by_uuid(
     uuid: str,
     use_case: CalculateUseCaseInterface = Depends(Provide["calculate_use_case"]),
 ) -> dict[str, Any]:

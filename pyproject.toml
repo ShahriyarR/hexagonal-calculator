@@ -17,6 +17,8 @@ dependencies = [
     "SQLAlchemy ==1.4.46",
     "fastapi >=0.95.0",
     "uvicorn >=0.21.1",
+    "flask >=2.2.3",
+    "Flask-Bootstrap >=3.3.7.1",
 ]
 
 
