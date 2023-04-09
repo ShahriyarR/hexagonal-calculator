@@ -32,6 +32,7 @@ dev = [
     "pytype >= 2023.2.17 ",
     "bandit >= 1.7.4",
     "flake8-bugbear >= 22.12.6",
+    "flake8-cognitive-complexity >= 0.1.0",
     ]
 test = [
     "pytest ==7.1.3",

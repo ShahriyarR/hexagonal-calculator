@@ -35,7 +35,7 @@ format:
 	${PYTHON} -m isort src tests
 
 lint:
-	${PYTHON} -m flake8 src
+	${PYTHON} -m flake8 --max-complexity 5 --max-cognitive-complexity=3 src
 	${PYTHON} -m black src tests --check --diff --config pyproject.toml
 	${PYTHON} -m isort src tests --check --diff
 
