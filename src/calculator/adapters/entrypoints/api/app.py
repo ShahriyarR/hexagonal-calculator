@@ -31,10 +31,20 @@ def create_app() -> Flask:
     container = Container()
     app_ = Flask(__name__)
     app_.container = container
-    app_.register_blueprint(blueprint=route_calculate.blueprint, url_prefix="/v2/calculate")
+    app_.register_blueprint(
+        blueprint=route_calculate.blueprint, url_prefix="/v2/calculate"
+    )
 
     bootstrap = Bootstrap()
     bootstrap.init_app(app_)
+
+    # start ORM mappers
+    try:
+        start_mappers()
+    except Exception as err:
+        # Checking if the mapper was already started
+        if "already has a primary mapper defined" not in str(err):
+            raise RuntimeError(err) from err
 
     return app_
 
