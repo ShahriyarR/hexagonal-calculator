@@ -50,3 +50,6 @@ migrations:
 
 migrate:
 	alembic -c src/calculator/adapters/db/alembic.ini upgrade head
+
+run:
+	${PYTHON} -m uvicorn src.calculator.adapters.entrypoints.api.app:app --host 0.0.0.0 --port 8000 --reload
