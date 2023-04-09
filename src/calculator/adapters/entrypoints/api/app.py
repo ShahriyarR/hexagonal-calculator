@@ -1,7 +1,10 @@
 from fastapi import FastAPI
+from flask import Flask
+from flask_bootstrap import Bootstrap
 
 from calculator.adapters.db.orm import start_mappers
 from calculator.adapters.entrypoints.api.base import api_router
+from calculator.adapters.entrypoints.api.v2 import route_calculate
 from calculator.configurator.containers import Container
 
 
@@ -24,4 +27,18 @@ def start_application():
     return app_
 
 
+def create_app() -> Flask:
+    container = Container()
+    app_ = Flask(__name__)
+    app_.container = container
+    app_.register_blueprint(blueprint=route_calculate.blueprint, url_prefix="/v2/calculate")
+
+    bootstrap = Bootstrap()
+    bootstrap.init_app(app_)
+
+    return app_
+
+
 app = start_application()
+
+flask_app = create_app()
