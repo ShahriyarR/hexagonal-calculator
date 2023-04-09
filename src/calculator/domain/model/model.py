@@ -45,14 +45,14 @@ class Calculation:
         return asdict(self)
 
 
-def calculation_factory(**kwargs: dict[str]) -> Calculation:
+def calculation_factory(**kwargs: str) -> Calculation:
     action_ = kwargs.get("action")
-    action_ = ActionType(action_).value
+    action_ = ActionType(str(action_)).value
     kwargs["action"] = action_
     return Calculation(**kwargs)
 
 
-def operands_factory(**kwargs: dict[str]) -> Operands:
+def operands_factory(**kwargs: str) -> Operands:
     schema_ = OperandsCreateDTO()
     model = Operands(**kwargs)
     schema_.dump(model)
