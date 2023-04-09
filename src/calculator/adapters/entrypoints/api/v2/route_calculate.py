@@ -15,7 +15,7 @@ def get_all_calculation(
     use_case: CalculateUseCaseInterface = Provide["calculate_use_case"],
 ) -> Response:
     data = use_case.get_all()
-    return Response(json.dumps(data), status=200, content_type="application/json")
+    return Response(json.dumps(data), content_type="application/json", status=200)
 
 
 @blueprint.get("/calculation/<uuid>")

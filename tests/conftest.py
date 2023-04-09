@@ -6,7 +6,7 @@ import sqlalchemy
 from httpx import AsyncClient
 
 from calculator.adapters.db.orm import start_mappers
-from calculator.adapters.entrypoints.api.app import app
+from calculator.adapters.entrypoints.api.app import app, create_app
 from calculator.adapters.services.operands import OperandsService
 from calculator.adapters.use_cases.calculate import CalculateUseCase
 from calculator.domain.model.model import calculation_factory
@@ -73,3 +73,15 @@ async def client():
         app=app, base_url="http://0.0.0.0:8000/calculate/"
     ) as client:
         yield client
+
+
+@pytest.fixture(scope="module")
+def get_flask_app():
+    app_ = create_app()
+    yield app_
+    app_.container.unwire()
+
+
+@pytest.fixture(scope="module")
+def get_flask_client(get_flask_app):
+    return get_flask_app.test_client()
