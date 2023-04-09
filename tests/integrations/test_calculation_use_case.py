@@ -4,6 +4,7 @@ import pytest
 from calculator.configurator.containers import Container
 
 
+@pytest.mark.integration
 def test_calculate_use_case_add(get_fake_container, get_calculate_use_case):
     with Container.calculation_uow.override(get_fake_container.calculation_uow):
         with Container.operands_service.override(get_fake_container.operands_service):
@@ -16,6 +17,7 @@ def test_calculate_use_case_add(get_fake_container, get_calculate_use_case):
                 assert result[0].result == 11
 
 
+@pytest.mark.integration
 def test_calculate_use_case_subtract(get_fake_container, get_calculate_use_case):
     with Container.calculation_uow.override(get_fake_container.calculation_uow):
         with Container.operands_service.override(get_fake_container.operands_service):
@@ -28,6 +30,7 @@ def test_calculate_use_case_subtract(get_fake_container, get_calculate_use_case)
                 assert result[1].result == -1
 
 
+@pytest.mark.integration
 def test_calculate_use_case_multiply(get_fake_container, get_calculate_use_case):
     with Container.calculation_uow.override(get_fake_container.calculation_uow):
         with Container.operands_service.override(get_fake_container.operands_service):
@@ -40,6 +43,7 @@ def test_calculate_use_case_multiply(get_fake_container, get_calculate_use_case)
                 assert result[2].result == 30
 
 
+@pytest.mark.integration
 def test_calculate_use_case_divide(get_fake_container, get_calculate_use_case):
     with Container.calculation_uow.override(get_fake_container.calculation_uow):
         with Container.operands_service.override(get_fake_container.operands_service):
@@ -55,6 +59,7 @@ def test_calculate_use_case_divide(get_fake_container, get_calculate_use_case):
                 get_calculate_use_case.divide(8, 0)
 
 
+@pytest.mark.integration
 def test_calculate_use_case_get_all(get_fake_container, get_calculate_use_case):
     with Container.calculation_uow.override(get_fake_container.calculation_uow):
         with Container.operands_service.override(get_fake_container.operands_service):
@@ -66,6 +71,7 @@ def test_calculate_use_case_get_all(get_fake_container, get_calculate_use_case):
             assert len(result["results"]) == 7
 
 
+@pytest.mark.integration
 def test_calculate_use_case_get_by_uuid(get_fake_container, get_calculate_use_case):
     with Container.calculation_uow.override(get_fake_container.calculation_uow):
         with Container.operands_service.override(get_fake_container.operands_service):

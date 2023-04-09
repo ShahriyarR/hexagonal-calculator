@@ -1,9 +1,12 @@
 import contextlib
 
 import pytest
+import pytest_asyncio
 import sqlalchemy
+from httpx import AsyncClient
 
 from calculator.adapters.db.orm import start_mappers
+from calculator.adapters.entrypoints.api.app import app
 from calculator.adapters.services.operands import OperandsService
 from calculator.adapters.use_cases.calculate import CalculateUseCase
 from calculator.domain.model.model import calculation_factory
@@ -62,3 +65,11 @@ def get_fake_container():
 @pytest.fixture(scope="module")
 def get_calculate_use_case():
     return CalculateUseCase()
+
+
+@pytest_asyncio.fixture()
+async def client():
+    async with AsyncClient(
+        app=app, base_url="http://0.0.0.0:8000/calculate/"
+    ) as client:
+        yield client
