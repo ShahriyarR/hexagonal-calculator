@@ -10,7 +10,41 @@ Other patterns involved:
 * Services
 * Use Cases
 
-# Dependency Graphs
+## How to install?
+
+Use virtualenv as:
+
+* `python3 -m venv .venv`
+* `source .venv/bin/activate`
+
+We use flit for the installation and package management:
+
+Install flit:
+
+* `pip install flit==3.7.1`
+
+The rest of the commands can be found using `make help`:
+
+```
+---------------HELP-----------------
+To install the project type -> make install
+To install the project for development type -> make install-dev
+To test the project type -> make test
+To test with coverage -> make test-cov
+To format code type -> make format
+To check linter type -> make lint
+To run type checker -> make type-check
+To run all security related commands -> make secure
+To create database migrations -> make migrations
+To run database migrations -> make migrate
+------------------------------------
+```
+
+For development purposes the main command is `make install-dev` as it will enable editable installation.
+
+
+
+## Dependency Graphs
 
 ### Graph from FastAPI router
 
