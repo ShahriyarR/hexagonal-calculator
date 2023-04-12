@@ -42,7 +42,132 @@ To run database migrations -> make migrate
 
 For development purposes the main command is `make install-dev` as it will enable editable installation.
 
+## Layers with classes
 
+### Repositories + UOWs + Use Cases
+
+```mermaid
+classDiagram
+    class CalculationRepositoryInterface {
+        <<interface>>
+        + add(self, calculation: model.Calculation) -> None
+        + get(self, id_) -> model.Calculation
+        + get_by_action(self, action: str) -> model.Calculation
+        + get_by_uuid(self, uuid: str) -> model.Calculation
+        + get_all(self) -> list[model.Calculation]
+        
+        _add(self, calculation: model.Calculation)* -> None
+        _get(self, id_)* -> model.Calculation:
+        _get_by_action(self, action: str)* -> model.Calculation
+        _get_by_uuid(self, uuid: str)* -> model.Calculation
+        _get_all(self)* -> list[model.Calculation]
+        
+    }
+    
+    class CalculationSqlAlchemyRepository {
+        - _add(self, calculation: model.Calculation) -> None
+        - _get(self, id_) -> model.Calculation:
+        - _get_by_action(self, action: str) -> model.Calculation
+        - _get_by_uuid(self, uuid: str) -> model.Calculation
+        - _get_all(self) -> list[model.Calculation]
+    }
+    
+    class CalculationUnitOfWorkInterface{
+        <<interface>>
+        + calculation: CalculationRepositoryInterface
+    }
+    
+    class CalculationSqlAlchemyUnitOfWork{
+        + calculation: CalculationRepositoryInterface
+    }
+    
+    class CalculateUseCaseInterface{
+        <<interface>>
+        + add(self, left: Decimal, right: Decimal)
+        + subtract(self, left: Decimal, right: Decimal)
+        + multiply(self, left: Decimal, right: Decimal)
+        + divide(self, left: Decimal, right: Decimal)
+        + get_all(self)
+        + get_by_uuid(self, uuid: str) -> dict[str, Any]
+        
+        __init__(self, uow: CalculationUnitOfWorkInterface, service: OperandsServiceInterface)*
+        _add(self, left: Decimal, right: Decimal)*
+        _subtract(self, left: Decimal, right: Decimal)*
+        _multiply(self, left: Decimal, right: Decimal)*
+        _divide(self, left: Decimal, right: Decimal)*
+        _get_all(self)*
+        _get_by_uuid(self, uuid: str)* -> dict[str, Any]
+    }
+    
+    class CalculateUseCase{
+        __init__(self, uow: CalculationUnitOfWorkInterface, service: OperandsServiceInterface)
+        - _add(self, left: Decimal, right: Decimal)
+        - _subtract(self, left: Decimal, right: Decimal)
+        - _multiply(self, left: Decimal, right: Decimal)
+        - _divide(self, left: Decimal, right: Decimal)
+        - _get_all(self)
+        - _get_by_uuid(self, uuid: str) -> dict[str, Any]
+    }
+    
+    class OperandsServiceInterface{
+        <<interface>>
+        
+        + add(self, left: Decimal, right: Decimal) -> Decimal
+        + subtract(self, left: Decimal, right: Decimal) -> Decimal
+        + multiply(self, left: Decimal, right: Decimal) -> Decimal
+        + divide(self, left: Decimal, right: Decimal) -> Decimal
+        
+        _add(self, left: Decimal, right: Decimal)* -> Decimal
+        _subtract(self, left: Decimal, right: Decimal)* -> Decimal
+        _multiply(self, left: Decimal, right: Decimal)* -> Decimal
+        _divide(self, left: Decimal, right: Decimal)* -> Decimal
+    }
+    
+    class OperandsService{
+        - _add(self, left: Decimal, right: Decimal) -> Decimal
+        - _subtract(self, left: Decimal, right: Decimal) -> Decimal
+        - _multiply(self, left: Decimal, right: Decimal) -> Decimal
+        - _divide(self, left: Decimal, right: Decimal) -> Decimal
+    }
+        
+    CalculationSqlAlchemyRepository ..|> CalculationRepositoryInterface: implements
+    CalculationSqlAlchemyUnitOfWork ..|> CalculationUnitOfWorkInterface: implements
+    CalculateUseCase ..|> CalculateUseCaseInterface: implements
+    OperandsService ..|> OperandsServiceInterface: implements
+    CalculationSqlAlchemyUnitOfWork ..> CalculationSqlAlchemyRepository: depends on
+    CalculateUseCase ..> CalculationSqlAlchemyUnitOfWork: depends on
+    CalculateUseCase ..> OperandsService: depends on
+```
+
+
+
+## Domain models
+
+TODO: Update this section when you have Aggregates and relations
+
+```mermaid
+classDiagram
+    class Calculation
+    class Operands
+    class ActionType
+```
+
+## Database Schemas
+
+```mermaid
+erDiagram
+    calculation {
+        int id PK "This is from the database autoincrement"
+        string uuid UK "ULID type from python"
+        decimal left "left right action -> this is a unique composite constraint"
+        decimal right "left right action -> this is a unique composite constraint"
+        string action "left right action -> this is a unique composite constraint"
+        result decimal
+        datetime created_at
+        datetime updated_at
+    }
+    
+```
 
 ## Dependency Graphs
 
