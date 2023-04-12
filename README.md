@@ -42,9 +42,14 @@ To run database migrations -> make migrate
 
 For development purposes the main command is `make install-dev` as it will enable editable installation.
 
-## Layers with classes
+## Ports and Adapters layers
 
-### Repositories + UOWs + Use Cases
+![hexagonal architecture](docs/hexagonal_calculator.png)
+
+
+## Understanding Layers with classes
+
+### Repositories + UOWs + Use Cases + Entrypoints
 
 ```mermaid
 classDiagram
@@ -134,9 +139,9 @@ classDiagram
     CalculationSqlAlchemyUnitOfWork ..|> CalculationUnitOfWorkInterface: implements
     CalculateUseCase ..|> CalculateUseCaseInterface: implements
     OperandsService ..|> OperandsServiceInterface: implements
-    CalculationSqlAlchemyUnitOfWork ..> CalculationSqlAlchemyRepository: depends on
-    CalculateUseCase ..> CalculationSqlAlchemyUnitOfWork: depends on
-    CalculateUseCase ..> OperandsService: depends on
+    CalculationSqlAlchemyUnitOfWork ..> CalculationRepositoryInterface: depends on
+    CalculateUseCase ..> CalculationUnitOfWorkInterface: depends on
+    CalculateUseCase ..> OperandsServiceInterface: depends on
 ```
 
 
