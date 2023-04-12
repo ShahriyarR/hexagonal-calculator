@@ -49,7 +49,7 @@ For development purposes the main command is `make install-dev` as it will enabl
 
 ## Understanding Layers with classes
 
-### Repositories + UOWs + Use Cases + Entrypoints
+### Repositories + UOWs + Use Cases
 
 ```mermaid
 classDiagram
