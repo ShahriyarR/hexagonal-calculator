@@ -42,6 +42,8 @@ To run database migrations -> make migrate
 
 For development purposes the main command is `make install-dev` as it will enable editable installation.
 
+The equivalent command is: `flit install --env --deps=develop --symlink`
+
 ## How to run?
 
 Our application has FastAPI and Flask support for the same functionality, as we have decoupled the business logic, frameworks are responsible only for showing the results.
@@ -59,6 +61,8 @@ Our application has FastAPI and Flask support for the same functionality, as we 
 For running all tests:
 
 `make test`
+
+`TEST_RUN=True pytest -svv`
 
 For running only integration tests:
 
