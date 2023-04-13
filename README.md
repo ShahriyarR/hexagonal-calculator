@@ -42,6 +42,32 @@ To run database migrations -> make migrate
 
 For development purposes the main command is `make install-dev` as it will enable editable installation.
 
+## How to run?
+
+Our application has FastAPI and Flask support for the same functionality, as we have decoupled the business logic, frameworks are responsible only for showing the results.
+
+* Start Flask development server:
+
+`TEST_RUN=True flask --app src.calculator.adapters.entrypoints.api.app:flask_app run`
+
+* Start FastAPI development server:
+
+`TEST_RUN=True uvicorn src.calculator.adapters.entrypoints.api.app:app --port 8000`
+
+## How to test?
+
+For running all tests:
+
+`make test`
+
+For running only integration tests:
+
+`TEST_RUN=True pytest -svv -m integration`
+
+For running tests with coverage:
+
+`make test-cov`
+
 ## Ports and Adapters layers
 
 ![hexagonal architecture](docs/hexagonal_calculator.png)
@@ -202,3 +228,9 @@ The rule I strongly advice to follow is:
 `"If it is hard to understand the dependency flow from the dependency graph, simply you are closer to have small to big ball of mud"`
 
 If you have spotted something wrong here, just go back and try to simplify or fix the abstractions, dependencies, layers, etc.
+
+## TODOs
+
+* Use aggregates for atomic operations.
+* Add more API endpoints for full calculator functionality.
+* Increase test coverage.
