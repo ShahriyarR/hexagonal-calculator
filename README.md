@@ -1,5 +1,9 @@
 # Hexagonal Calculator
 
+> YouTube PyCON DE 2023 talk of this repo:
+>
+> https://youtu.be/qCw0ySOeekA
+
 Calculator application using Hexagonal Architecture in Python.
 
 Other patterns involved:
